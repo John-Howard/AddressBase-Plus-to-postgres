@@ -18,8 +18,8 @@ AS
 BEGIN
         -- The geometry
         -- Set it based on the x_coord and y_coord fields, or latitude and longitude. Comment/uncomment as necessary.
-        NEW.geom = ST_SetSRID(ST_MakePoint(NEW.LONGITUDE, NEW.LATITUDE), 4258);
-        -- NEW.geom = ST_SetSRID(ST_MakePoint(NEW.X_COORDINATE, NEW.Y_COORDINATE), 27700);
+        -- NEW.geom = ST_SetSRID(ST_MakePoint(NEW.LONGITUDE, NEW.LATITUDE), 4258);
+        NEW.geom = ST_SetSRID(ST_MakePoint(NEW.X_COORDINATE, NEW.Y_COORDINATE), 27700);
         -- The full address
         -- Initialise it
         NEW.full_address = '';
@@ -222,7 +222,7 @@ CREATE TABLE
                 VOA_NDR_SCAT_CODE               CHAR(4) NULL                              ,
                 ALT_LANGUAGE                    CHAR(3) NULL                              ,
                 full_address                    text COLLATE pg_catalog."default" NOT NULL,
-                geom geometry(Point,4258) NOT NULL                                        ,
+                geom geometry(Point,27700) NOT NULL                                        ,
                 CONSTRAINT addressbase_pkey PRIMARY KEY (id)
         )
         WITH
