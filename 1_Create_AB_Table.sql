@@ -5,7 +5,7 @@ CREATE EXTENSION  IF NOT EXISTS postgis;
 CREATE SCHEMA IF NOT EXISTS os_address;
 
 --DROP TABLE IF IT EXISTS ALREADY
-DROP TABLE IF EXISTS os_address.addressbase;
+DROP TABLE IF EXISTS os_address.addressbase CASCADE;
 
 
 -- Create a function which will populate the full_address and geom columns as
@@ -17,8 +17,9 @@ AS
         $$
 BEGIN
         -- The geometry
-        -- Set it based on the x_coord and y_coord fields
+        -- Set it based on the x_coord and y_coord fields, or latitude and longitude. Comment/uncomment as necessary.
         NEW.geom = ST_SetSRID(ST_MakePoint(NEW.LONGITUDE, NEW.LATITUDE), 4258);
+        -- NEW.geom = ST_SetSRID(ST_MakePoint(NEW.X_COORDINATE, NEW.Y_COORDINATE), 27700);
         -- The full address
         -- Initialise it
         NEW.full_address = '';
@@ -138,6 +139,7 @@ BEGIN
         RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
+
 CREATE TABLE
         os_address.addressbase
         (
